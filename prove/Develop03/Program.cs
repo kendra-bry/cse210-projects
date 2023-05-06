@@ -1,6 +1,9 @@
+/*
+    To exceed requirements, I added a DataAccess class that will ask the user for a scripture reference and then fetch that data from an API. I then format the data into the Reference and Scripture classes and continue with the program.
+*/
+
 class Program
 {
-
     static async Task Main(string[] args)
     {
         DataAccess dataAccess = new();
