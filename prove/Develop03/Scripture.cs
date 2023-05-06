@@ -25,11 +25,21 @@ public class Scripture
 
     public void DisplayScripture()
     {
-        Console.Write(_reference.GetReference());
+        Console.WriteLine(_reference.GetReference());
         foreach (Word word in _words)
         {
-            Console.Write($" {word.GetWord()}");
+            if (!word.GetIsHidden())
+            {
+                Console.Write($"{word.GetWord()} ");
+            }
+            else
+            {
+                Console.Write($"{new string('_', word.GetWord().Length)} ");
+            }
+
         }
+        Console.WriteLine();
+        Console.WriteLine();
     }
 
     public void HideWords()
@@ -44,19 +54,16 @@ public class Scripture
             Word selectedWord = _words[wordListIndex];
             if (!selectedWord.GetIsHidden())
             {
-                string selectedWordString = selectedWord.GetWord();
-                string hiddenString = string.Empty;
-                foreach (char c in selectedWordString)
-                {
-                    hiddenString += "_";
-                }
-                Word word = new(hiddenString);
-                word.SetIsHidden(true);
-                _words[wordListIndex] = word;
+                selectedWord.SetIsHidden(true);
                 iterator++;
             }
-        }
-        while (iterator < hideWordCount);
+            else
+            {
+                Word nextAvailableWord = _words.Find(word => !word.GetIsHidden());
+                nextAvailableWord?.SetIsHidden(true);
+                iterator++;
+            }
+        } while (iterator != hideWordCount && !GetIsCompletelyHidden());
     }
 
     public bool GetIsCompletelyHidden()
@@ -72,6 +79,7 @@ public class Scripture
             if (!word.GetIsHidden())
             {
                 everyWordIsHidden = false;
+                break;
             }
         }
         _isCompletelyHidden = everyWordIsHidden;

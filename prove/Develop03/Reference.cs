@@ -26,7 +26,7 @@ public class Reference
 
         if (!string.IsNullOrWhiteSpace(_verseEnd))
         {
-            reference += $" - {_verseEnd}";
+            reference += $"-{_verseEnd}";
         }
 
         return reference;

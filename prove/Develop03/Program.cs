@@ -1,32 +1,46 @@
 class Program
 {
-    static void Main(string[] args)
+
+    static async Task Main(string[] args)
     {
-        Reference reference = new("1 Nephi", "3", "7");
-        string verse = "And it came to pass that I, Nephi, said unto my father: I will go and do the things which the Lord hath commanded, for I know that the Lord giveth no commandments unto the children of men, save he shall prepare a way for them that they may accomplish the thing which he commandeth them.";
-        Scripture scripture = new(reference, verse);
-        scripture.GetWords();
-        string input = string.Empty;
-        string instructions = "\nPress enter or type 'quit'.\n";
-
-        Console.WriteLine("\nWelcome to the scripture memorizer helper.");
-        Console.WriteLine(instructions);
-        input = Console.ReadLine();
-
-        while (input != "quit")
+        DataAccess dataAccess = new();
+        try
         {
-            Console.Clear();
-            scripture.DisplayScripture();
+            Console.WriteLine("\nWelcome to the scripture memorizer helper.\n");
+            string instructions = "Press enter or type 'quit' to finish. ";
+            Console.Write(instructions);
 
-            scripture.SetIsCompletelyHidden();
-            if (scripture.GetIsCompletelyHidden())
+            string input = Console.ReadLine();
+
+            if (input == "quit")
             {
-                break;
+                return;
             }
 
-            scripture.HideWords();
-            Console.WriteLine(instructions);
-            input = Console.ReadLine();
+            Scripture scripture = await dataAccess.FetchScripture();
+            scripture.GetWords();
+
+            while (input != "quit" && !scripture.GetIsCompletelyHidden())
+            {
+                Console.Clear();
+                scripture.DisplayScripture();
+                scripture.SetIsCompletelyHidden();
+
+                if (scripture.GetIsCompletelyHidden())
+                {
+                    break;
+                }
+
+                Console.Write(instructions);
+                input = Console.ReadLine();
+
+                scripture.HideWords();
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
     }
 }
