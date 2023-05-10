@@ -13,7 +13,7 @@ namespace inheritance
 
         public string GetHomeworkList()
         {
-            return $"{_textbookSection} | {_problems}";
+            return $"Section: {_textbookSection} | Problems: {_problems}";
         }
     }
 }

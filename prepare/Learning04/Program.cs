@@ -6,6 +6,9 @@ namespace inheritance
     {
         static void Main(string[] args)
         {
+            Assignment assignment = new("John Smith", "History");
+            Console.Write(assignment.GetSummary());
+
             MathAssignment math = new("John Smith", "Multiplication", "Section 10.4", "Problems 3 -6");
             Console.WriteLine(math.GetSummary());
             Console.WriteLine(math.GetHomeworkList());
