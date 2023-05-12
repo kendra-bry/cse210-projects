@@ -15,13 +15,17 @@ namespace mindfulness
 
         public void BeginIntro()
         {
-            Console.WriteLine($"Welcome to the {_name} Activity.\n");
+            Console.Clear();
+            Console.WriteLine($"Welcome to the {_name} Activity.");
+            Animations.Ellipsis(3);
+            Console.WriteLine();
             Console.WriteLine(_description);
-            Console.WriteLine("\nHow long, in seconds, would you like for your session?");
+            Animations.Ellipsis(3);
+            Console.Write("\nHow long, in seconds, would you like your session to run? ");
             _duration = int.Parse(Console.ReadLine());
             Console.Clear();
             Console.WriteLine("Get ready.");
-            // TODO: Display Spinner for 5 seconds.
+            Animations.Spinner(2);
         }
 
         public void FinishActivity()

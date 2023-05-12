@@ -1,15 +1,13 @@
 namespace mindfulness
 {
-    public class ListingActivity
+    public class ListingActivity : Activity
     {
-        // Properties
-        /*
-        */
-
-        // Methods
-        /*
-       RunActivity()
-           
-       */
+        public ListingActivity(string name, string desc) : base(name, desc)
+        { }
+        public void RunActivity()
+        {
+            Console.WriteLine("Run Listing Activity");
+            Animations.Countdown(5);
+        }
     }
 }

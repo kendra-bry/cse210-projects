@@ -42,13 +42,12 @@ namespace mindfulness
                 {
                     Console.Write("\b \b");
                 }
-
             }
         }
 
         public static void Ellipsis(int duration)
         {
-            for (int i = duration; i > 0; i--)
+            for (int i = 1; i <= duration; i++)
             {
                 Console.Write(".");
                 Thread.Sleep(500);
@@ -56,7 +55,6 @@ namespace mindfulness
                 {
                     Console.Write("\b\b\b   \b\b\b");
                 }
-
             }
         }
 

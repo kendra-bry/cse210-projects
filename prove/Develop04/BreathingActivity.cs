@@ -7,7 +7,8 @@ namespace mindfulness
 
         public void RunActivity()
         {
-            
+            Console.WriteLine("Running Breathing Activity");
+            Animations.Countdown(5);
         }
         /*
             Display: a series of messages alternating between "Breathe in..." and "Breathe out..."
