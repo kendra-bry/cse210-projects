@@ -57,10 +57,5 @@ namespace mindfulness
                 }
             }
         }
-
-        public static void Breathing()
-        {
-            Console.WriteLine("Breathing");
-        }
     }
 }

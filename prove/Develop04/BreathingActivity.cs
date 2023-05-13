@@ -5,15 +5,26 @@ namespace mindfulness
         public BreathingActivity(string name, string desc) : base(name, desc)
         { }
 
-        public void RunActivity()
+        public override void RunActivity()
         {
-            Console.WriteLine("Running Breathing Activity");
-            Animations.Countdown(5);
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = startTime.AddSeconds(_duration);
+            while (startTime < endTime)
+            {
+                Console.WriteLine();
+
+                Console.Write("Breathe in... ");
+                Thread.Sleep(1000);
+                Animations.Countdown(3);
+
+                Console.WriteLine();
+
+                Console.Write("Breathe out... ");
+                Thread.Sleep(1000);
+                Animations.Countdown(3);
+
+                startTime = DateTime.Now;
+            }
         }
-        /*
-            Display: a series of messages alternating between "Breathe in..." and "Breathe out..."
-            Stretch Display: Breathing animation.
-            Display: pause for several seconds and show a countdown.
-        */
     }
 }

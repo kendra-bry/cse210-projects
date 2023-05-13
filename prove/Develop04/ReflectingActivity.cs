@@ -4,6 +4,8 @@ namespace mindfulness
     {
         private List<string> _prompts;
         private List<string> _reflections;
+        private List<int> _usedPrompts = new() { };
+        private List<int> _usedReflections = new() { };
         private Random _rnd;
 
         public ReflectingActivity(string name, string desc) : base(name, desc)
@@ -20,7 +22,7 @@ namespace mindfulness
                 "Have you ever done anything like this before?",
                 "How did you get started?",
                 "How did you feel when it was complete?",
-                "What made this time different than other times when you were not as successful ?",
+                "What made this time different than other times when you were not as successful?",
                 "What is your favorite thing about this experience?",
                 "What could you learn from this experience that applies to other situations?",
                 "What did you learn about yourself through this experience?",
@@ -29,31 +31,58 @@ namespace mindfulness
 
             _rnd = new Random();
         }
-        public void RunActivity()
+        public override void RunActivity()
         {
-            Console.WriteLine();
+            _usedReflections.Clear();
+            Console.Clear();
             Console.WriteLine(GetPrompt());
             Animations.Ellipsis(6);
+
             Console.WriteLine();
-            Console.Write("Press any key to continue. ");
+            Console.Write("Press Enter to continue. ");
             Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine(GetReflection());
-            Animations.Spinner(5);
+
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = startTime.AddSeconds(_duration);
+            while (startTime < endTime)
+            {
+                Console.WriteLine();
+                Console.WriteLine(GetReflection());
+                Animations.Spinner(5);
+
+                startTime = DateTime.Now;
+            }
         }
 
-        public string GetPrompt()
+        private string GetPrompt()
         {
             int i = _rnd.Next(0, _prompts.Count);
+            while (_usedPrompts.Contains(i))
+            {
+                i = _rnd.Next(0, _prompts.Count);
+                if (_usedPrompts.Count == _prompts.Count)
+                {
+                    _usedPrompts.Clear();
+                }
+            }
+            _usedPrompts.Add(i);
             return _prompts[i];
         }
 
 
-        public string GetReflection()
+        private string GetReflection()
         {
             int i = _rnd.Next(0, _reflections.Count);
+            while (_usedReflections.Contains(i))
+            {
+                i = _rnd.Next(0, _reflections.Count);
+                if (_usedReflections.Count == _reflections.Count)
+                {
+                    _usedReflections.Clear();
+                }
+            }
+            _usedReflections.Add(i);
             return _reflections[i];
         }
-
     }
 }
