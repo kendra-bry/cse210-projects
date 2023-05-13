@@ -13,7 +13,7 @@ namespace mindfulness
         }
 
 
-        public void BeginIntro()
+        public void LaunchActivity()
         {
             Console.Clear();
             Console.WriteLine($"Welcome to the {_name} Activity.");
