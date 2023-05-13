@@ -46,6 +46,7 @@ namespace mindfulness
                         break;
                     case 4:
                     default:
+                        Console.Clear();
                         Console.WriteLine("Thank you for being mindful today.");
                         break;
                 }

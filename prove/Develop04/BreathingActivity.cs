@@ -7,6 +7,7 @@ namespace mindfulness
 
         public override void RunActivity()
         {
+            Console.Clear();
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(_duration);
             while (startTime < endTime)
