@@ -1,3 +1,6 @@
+/*
+    To exceed expectations, I added some logic checking to ensure that reflections and prompts won't repeat until they have all been shown at least once.
+*/
 namespace mindfulness
 {
     class Program
