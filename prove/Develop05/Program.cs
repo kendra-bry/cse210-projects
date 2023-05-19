@@ -52,6 +52,7 @@ namespace Tracker
                         tracker.LoadFile();
                         break;
                     case 6:
+                        Console.Clear();
                         Console.WriteLine("Thank you for recording your goals today. Good bye.");
                         Environment.Exit(0);
                         break;

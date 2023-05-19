@@ -77,11 +77,19 @@ namespace Tracker
         public void ListGoals()
         {
             Console.Clear();
-            Console.WriteLine("The goals in the list are:");
-            foreach (Goal goal in _goals)
+            if (_goals.Count == 0)
             {
-                int index = _goals.FindIndex(g => g.GetName() == goal.GetName());
-                Console.WriteLine($"{index + 1}. {goal.GetListText()}");
+                Console.WriteLine("There are no goals to list. Please add a goal.");
+            }
+            else
+            {
+                Console.WriteLine("The goals in the list are:");
+                foreach (Goal goal in _goals)
+                {
+                    int index = _goals.FindIndex(g => g.GetName() == goal.GetName());
+                    Console.WriteLine($"{index + 1}. {goal.GetListText()}");
+                }
+
             }
             Thread.Sleep(2000);
             Console.WriteLine();
@@ -90,39 +98,46 @@ namespace Tracker
         public void RecordEvent()
         {
             Console.Clear();
-            Console.WriteLine("The incomplete goals are:");
 
-            foreach (Goal goal in _goals)
+            if (_goals.Count == 0)
             {
-                int index = _goals.FindIndex(g => g.GetName() == goal.GetName() && g.GetDesc() == goal.GetDesc() && g.GetPoints() == goal.GetPoints());
-                string name = goal.GetName();
-                string goalInfo = $"  {index + 1}. {name} - ";
-
-                if (goal.CheckCompletionStatus())
-                {
-                    goalInfo += $"(Already completed)";
-                }
-                else
-                {
-                    goalInfo += $"(Worth {goal.GetPoints()} points)";
-                }
-
-                Console.WriteLine(goalInfo);
-            }
-
-            Console.Write("\nWhich goal would you like to record an event for? ");
-            int input = int.Parse(Console.ReadLine());
-
-            Goal selectedGoal = _goals[input - 1];
-            if (selectedGoal.CheckCompletionStatus())
-            {
-                Console.WriteLine("\nI'm sorry. That goal has already been completed.");
+                Console.WriteLine("There are no goals to complete. Please add a goal.");
             }
             else
             {
-                _totalPoints += selectedGoal.MarkAsCompleted();
-                Console.WriteLine("\nGoal updated.");
-                CheckOverallCompletionStatus();
+                Console.WriteLine("The incomplete goals are:");
+                foreach (Goal goal in _goals)
+                {
+                    int index = _goals.FindIndex(g => g.GetName() == goal.GetName() && g.GetDesc() == goal.GetDesc() && g.GetPoints() == goal.GetPoints());
+                    string name = goal.GetName();
+                    string goalInfo = $"  {index + 1}. {name} - ";
+
+                    if (goal.CheckCompletionStatus())
+                    {
+                        goalInfo += $"(Already completed)";
+                    }
+                    else
+                    {
+                        goalInfo += $"(Worth {goal.GetPoints()} points)";
+                    }
+
+                    Console.WriteLine(goalInfo);
+                }
+
+                Console.Write("\nWhich goal would you like to record an event for? ");
+                int input = int.Parse(Console.ReadLine());
+
+                Goal selectedGoal = _goals[input - 1];
+                if (selectedGoal.CheckCompletionStatus())
+                {
+                    Console.WriteLine("\nI'm sorry. That goal has already been completed.");
+                }
+                else
+                {
+                    _totalPoints += selectedGoal.MarkAsCompleted();
+                    Console.WriteLine("\nGoal updated.");
+                    CheckOverallCompletionStatus();
+                }
             }
 
             Thread.Sleep(3000);
@@ -132,19 +147,27 @@ namespace Tracker
         public void SaveFile()
         {
             Console.Clear();
-            Console.Write("What is the file name? (Don't include the file extension.) ");
-            string filename = Console.ReadLine();
-
-            using (StreamWriter outputFile = new StreamWriter($"{filename}.txt"))
+            if (_goals.Count == 0)
             {
-                outputFile.WriteLine($"Total Points|{_totalPoints}");
-                foreach (Goal goal in _goals)
+                Console.WriteLine("There are no goals to save. Please add a goal.");
+            }
+            else
+            {
+                Console.Write("What is the file name? (Don't include the file extension.) ");
+                string filename = Console.ReadLine();
+
+                using (StreamWriter outputFile = new StreamWriter($"{filename}.txt"))
                 {
-                    outputFile.WriteLine(goal.PrepareForSave());
+                    outputFile.WriteLine($"Total Points|{_totalPoints}");
+                    foreach (Goal goal in _goals)
+                    {
+                        outputFile.WriteLine(goal.PrepareForSave());
+                    }
                 }
+
+                Console.WriteLine("\nGoals saved.");
             }
 
-            Console.WriteLine("\nGoals saved.");
             Thread.Sleep(2000);
             Console.Clear();
         }
