@@ -1,3 +1,7 @@
+/*
+    To exceed expectations, I added a celebration function that checks if you've completed all non-eternal goals. If you, there will be confetti displayed in the console.
+*/
+
 namespace Tracker
 {
     class Program

@@ -18,19 +18,9 @@ namespace Tracker
             _totalCountToBeCompleted = totalRequired;
         }
 
-        public int GetBonus()
-        {
-            return _bonus;
-        }
-
         public int GetCompletionCount()
         {
             return _completionCount;
-        }
-
-        public void SetCompletionCount(int count)
-        {
-            _completionCount = count;
         }
 
         public int GetTotalToBeCompleted()

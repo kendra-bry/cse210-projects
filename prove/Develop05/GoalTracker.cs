@@ -15,11 +15,6 @@ namespace Tracker
             return _totalPoints;
         }
 
-        public void SetTotalPoints(int totalPoints)
-        {
-            _totalPoints = totalPoints;
-        }
-
         public void AddGoal()
         {
             Console.Clear();
@@ -95,23 +90,42 @@ namespace Tracker
         public void RecordEvent()
         {
             Console.Clear();
-            Console.WriteLine("The goals are:");
+            Console.WriteLine("The incomplete goals are:");
 
             foreach (Goal goal in _goals)
             {
-                int index = _goals.FindIndex(g => g.GetName() == goal.GetName());
+                int index = _goals.FindIndex(g => g.GetName() == goal.GetName() && g.GetDesc() == goal.GetDesc() && g.GetPoints() == goal.GetPoints());
                 string name = goal.GetName();
-                Console.WriteLine($"  {index + 1}. {name} - (Worth {goal.GetPoints()} points)");
+                string goalInfo = $"  {index + 1}. {name} - ";
+
+                if (goal.CheckCompletionStatus())
+                {
+                    goalInfo += $"(Already completed)";
+                }
+                else
+                {
+                    goalInfo += $"(Worth {goal.GetPoints()} points)";
+                }
+
+                Console.WriteLine(goalInfo);
             }
 
             Console.Write("\nWhich goal would you like to record an event for? ");
             int input = int.Parse(Console.ReadLine());
 
             Goal selectedGoal = _goals[input - 1];
-            _totalPoints += selectedGoal.MarkAsCompleted();
+            if (selectedGoal.CheckCompletionStatus())
+            {
+                Console.WriteLine("\nI'm sorry. That goal has already been completed.");
+            }
+            else
+            {
+                _totalPoints += selectedGoal.MarkAsCompleted();
+                Console.WriteLine("\nGoal updated.");
+                CheckOverallCompletionStatus();
+            }
 
-            Console.WriteLine("\nGoal updated.");
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             Console.Clear();
         }
 
@@ -190,6 +204,52 @@ namespace Tracker
                     _goals.Add(cg);
                     break;
             }
+        }
+
+        private void CheckOverallCompletionStatus()
+        {
+            bool allGoalsAreCompleted = true;
+
+            foreach (Goal goal in _goals)
+            {
+                if (goal.GetType().Name == "EternalGoal")
+                {
+                    continue;
+                }
+
+                if (!goal.CheckCompletionStatus())
+                {
+                    allGoalsAreCompleted = false;
+                }
+            }
+
+            if (allGoalsAreCompleted)
+            {
+                DisplayConfetti();
+            }
+        }
+
+        private static void DisplayConfetti()
+        {
+            Console.Clear();
+            Console.WriteLine("Congratulations! You completed all non Eternal goals!");
+            Console.WriteLine("Here is some confetti to celebrate!");
+
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            string[] confetti = { "*", "+", "!", "@", "#", "$", "%", "&" };
+            Random random = new Random();
+            int confettiCount = 100;
+
+            for (int i = 0; i < confettiCount; i++)
+            {
+                Console.SetCursorPosition(random.Next(Console.WindowWidth), random.Next(Console.WindowHeight - 2) + 2);
+                Console.Write(confetti[random.Next(confetti.Length)]);
+                Thread.Sleep(25);
+            }
+
+            Console.ForegroundColor = originalColor;
         }
     }
 }
