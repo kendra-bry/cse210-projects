@@ -35,7 +35,7 @@ namespace Tracker
             {
                 Console.WriteLine(type);
             }
-            
+
             Console.Write("\nWhich type of goal would you like to add? ");
             int input = int.Parse(Console.ReadLine());
 
@@ -94,17 +94,102 @@ namespace Tracker
 
         public void RecordEvent()
         {
+            Console.Clear();
+            Console.WriteLine("The goals are:");
 
+            foreach (Goal goal in _goals)
+            {
+                int index = _goals.FindIndex(g => g.GetName() == goal.GetName());
+                string name = goal.GetName();
+                Console.WriteLine($"  {index + 1}. {name} - (Worth {goal.GetPoints()} points)");
+            }
+
+            Console.Write("\nWhich goal would you like to record an event for? ");
+            int input = int.Parse(Console.ReadLine());
+
+            Goal selectedGoal = _goals[input - 1];
+            _totalPoints += selectedGoal.MarkAsCompleted();
+
+            Console.WriteLine("\nGoal updated.");
+            Thread.Sleep(2000);
+            Console.Clear();
         }
 
         public void SaveFile()
         {
+            Console.Clear();
+            Console.Write("What is the file name? (Don't include the file extension.) ");
+            string filename = Console.ReadLine();
 
+            using (StreamWriter outputFile = new StreamWriter($"{filename}.txt"))
+            {
+                outputFile.WriteLine($"Total Points|{_totalPoints}");
+                foreach (Goal goal in _goals)
+                {
+                    outputFile.WriteLine(goal.PrepareForSave());
+                }
+            }
+
+            Console.WriteLine("\nGoals saved.");
+            Thread.Sleep(2000);
+            Console.Clear();
         }
 
         public void LoadFile()
         {
+            _goals.Clear();
+            Console.Clear();
 
+            Console.Write("What is the name of the file you would like to load? (Don't include the file extension.) ");
+            string filename = Console.ReadLine();
+            string[] lines = File.ReadAllLines($"{filename}.txt");
+
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split("|");
+
+                if (parts.Length == 2)
+                {
+                    _totalPoints = int.Parse(parts[1]);
+                }
+                else
+                {
+                    ParseTextLine(parts);
+                }
+            }
+
+            Console.WriteLine("\nGoals loaded.");
+            Thread.Sleep(2000);
+            Console.Clear();
+        }
+
+        private void ParseTextLine(string[] line)
+        {
+            string type = line[0];
+            string name = line[1];
+            string desc = line[2];
+            int points = int.Parse(line[3]);
+            bool status = bool.Parse(line[4]);
+
+            switch (type)
+            {
+                case "SimpleGoal":
+                    SimpleGoal sg = new(name, desc, points, status);
+                    _goals.Add(sg);
+                    break;
+                case "EternalGoal":
+                    EternalGoal eg = new(name, desc, points, status);
+                    _goals.Add(eg);
+                    break;
+                case "ChecklistGoal":
+                    int bonus = int.Parse(line[5]);
+                    int completionCount = int.Parse(line[6]);
+                    int total = int.Parse(line[7]);
+
+                    ChecklistGoal cg = new(name, desc, points, status, bonus, completionCount, total);
+                    _goals.Add(cg);
+                    break;
+            }
         }
     }
 }

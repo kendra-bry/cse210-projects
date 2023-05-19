@@ -17,19 +17,17 @@ namespace Tracker
 
             GoalTracker tracker = new(0);
 
-            int totalPoints = 0;
-
             Console.Clear();
             while (input != 6)
             {
-                Console.WriteLine($"You have {totalPoints} points.\n");
+                Console.WriteLine($"You have {tracker.GetTotalPoints()} points.\n");
                 Console.WriteLine("Menu Options:");
 
                 foreach (string option in menuOptions)
                 {
                     Console.WriteLine(option);
                 }
-                Console.Write("Please choose a menu option. ");
+                Console.Write("\nPlease choose a menu option. ");
                 input = int.Parse(Console.ReadLine());
 
                 switch (input)
@@ -41,16 +39,17 @@ namespace Tracker
                         tracker.ListGoals();
                         break;
                     case 3:
-                        Console.WriteLine("Recording event");
+                        tracker.RecordEvent();
                         break;
                     case 4:
-                        Console.WriteLine("Saving goals");
+                        tracker.SaveFile();
                         break;
                     case 5:
-                        Console.WriteLine("Loading goals");
+                        tracker.LoadFile();
                         break;
                     case 6:
-                        Console.WriteLine("Quitting");
+                        Console.WriteLine("Thank you for recording your goals today. Good bye.");
+                        Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("I'm sorry. That is not a valid option.");
