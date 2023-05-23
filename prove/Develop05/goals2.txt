@@ -1,0 +1,7 @@
+Total Points|130
+SimpleGoal|Simple Goal Test|This is a test of the simple goal.|10|True
+EternalGoal|Eternal Goal Test|This is a test of the eternal goal.|50|False
+ChecklistGoal|Checklist Goal Test|This is a test of the checklist goal.|10|True|50|2|2
+SimpleGoal|Simple goal test 2|Another test.|10|False
+EternalGoal|Eternal Goal Test 2|Another test of the eternal goals.|50|False
+ChecklistGoal|Another Checklist Goal test|Description for the second checklist goal|10|False|50|0|3

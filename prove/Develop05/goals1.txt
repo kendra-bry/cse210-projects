@@ -1,0 +1,2 @@
+Total Points|0
+SimpleGoal|Test Goal|Description of test goal|10|False
