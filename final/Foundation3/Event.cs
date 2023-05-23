@@ -28,7 +28,7 @@ namespace EventPlanner
         {
             Console.WriteLine("\n-------------------------------------\n");
             Console.WriteLine($"Event Title: {_title}");
-            Console.WriteLine($"Type: {GetType().Name}");
+            Console.WriteLine($"Event Type: {GetType().Name}");
             Console.WriteLine($"Date and Time: {_date}");
         }
     }
