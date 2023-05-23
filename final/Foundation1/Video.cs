@@ -12,7 +12,7 @@ namespace VideoTracker
             _title = title;
             _author = author;
             _lengthInSeconds = length;
-            _comments = new();
+            _comments = new List<Comment>();
         }
 
         public void AddComment(Comment comment)
