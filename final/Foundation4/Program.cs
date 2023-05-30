@@ -1,9 +1,21 @@
-using System;
-
-class Program
+namespace ExerciseTracker
 {
-    static void Main(string[] args)
+    class Program
     {
-        Console.WriteLine("Hello Foundation4 World!");
+        static void Main(string[] args)
+        {
+            List<Activity> activities = new()
+            {
+                new Cycling(DateTime.Today, 30, 6.0),
+                new Swimming(DateTime.Today, 30, 20),
+                new Running(DateTime.Today, 30, 3.0),
+            };
+
+            foreach (Activity activity in activities)
+            {
+                Console.WriteLine(activity.GetSummary());
+            }
+        }
     }
+
 }
